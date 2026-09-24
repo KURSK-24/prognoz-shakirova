@@ -1,0 +1,332 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Прогноз на месяц</title>
+<meta name="description" content="Персональный расчёт на месяц по дате рождения: деньги, отношения, дело, ресурс. Астролог Наталья Шакирова">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Spectral:ital,wght@0,400;0,600;1,400&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+:root{
+  --paper:#F7F4ED; --paper-2:#FFFFFF; --ink:#15171C; --ink-2:#4A4F5A; --ink-3:#7C818C;
+  --line:#E3DCCE;
+  --deep:#13514A; --deep-soft:#E6EFEC; --on-deep:#FFFFFF;
+  --brass:#A8791F; --brass-soft:#F5EBD5;
+  --alert:#9B3B22; --alert-soft:#F7E7E1; --wine:#8E2F3F;
+  --shadow:0 1px 2px rgba(21,23,28,.05), 0 8px 28px rgba(21,23,28,.06);
+  --r:14px;
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    --paper:#14161A; --paper-2:#1B1E24; --ink:#F2EEE6; --ink-2:#B9BEC8; --ink-3:#878D99;
+    --line:#2C313A;
+    --deep:#6FC0AE; --deep-soft:#17302C; --on-deep:#0F1512;
+    --brass:#D9AE5A; --brass-soft:#2E2618;
+    --alert:#E08769; --alert-soft:#33211A; --wine:#E58FA0;
+    --shadow:0 1px 2px rgba(0,0,0,.3), 0 10px 30px rgba(0,0,0,.35);
+  }
+}
+:root[data-theme="dark"]{
+  --paper:#14161A; --paper-2:#1B1E24; --ink:#F2EEE6; --ink-2:#B9BEC8; --ink-3:#878D99;
+  --line:#2C313A;
+  --deep:#6FC0AE; --deep-soft:#17302C; --on-deep:#0F1512;
+  --brass:#D9AE5A; --brass-soft:#2E2618;
+  --alert:#E08769; --alert-soft:#33211A; --wine:#E58FA0;
+  --shadow:0 1px 2px rgba(0,0,0,.3), 0 10px 30px rgba(0,0,0,.35);
+}
+*{box-sizing:border-box}
+html{-webkit-text-size-adjust:100%}
+body{
+  margin:0; background:var(--paper); color:var(--ink);
+  font-family:Inter,-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif;
+  font-size:17px; line-height:1.62; overflow-x:hidden;
+}
+.wrap{max-width:720px; margin:0 auto; padding:0 16px}
+h1,h2,h3{font-family:Spectral,Georgia,serif; font-weight:600; line-height:1.18; letter-spacing:-.01em; margin:0}
+h1{font-size:clamp(28px,6.4vw,44px)}
+h2{font-size:clamp(23px,4.8vw,32px)}
+h3{font-size:clamp(19px,3.6vw,22px)}
+p{margin:0 0 14px}
+.eyebrow{font-size:12px; letter-spacing:.14em; text-transform:uppercase; color:var(--ink-3); font-weight:600}
+
+.topbar{background:#0A0B0F; border-bottom:1px solid rgba(227,185,95,.3)}
+.topbar .wrap{display:flex; align-items:center; gap:13px; padding-top:18px; padding-bottom:18px}
+.mark{width:42px;height:42px;border-radius:50%;border:2px solid #E3B95F;display:grid;place-items:center;color:#E3B95F;font-size:20px;flex:none;box-shadow:0 0 22px rgba(227,185,95,.35)}
+.topbar b{display:block; font-family:Spectral,serif; font-weight:600; font-size:clamp(21px,5.4vw,28px); color:#F7EFDD; letter-spacing:.005em; line-height:1.12}
+.topbar span{display:block; color:#E3B95F; font-size:13px; letter-spacing:.17em; text-transform:uppercase; font-weight:600; margin-top:3px}
+
+/* ---- кинематографичная шапка на видео ---- */
+.hero{position:relative; overflow:hidden; background:#0A0B0F; color:#F3EDE1; padding:0}
+.hero-bg{position:absolute; inset:0; z-index:0}
+.hero-bg video{width:100%; height:100%; object-fit:cover; object-position:50% 22%; display:block}
+.hero-bg .scrim{position:absolute; inset:0;
+  background:linear-gradient(180deg, rgba(10,11,15,.15) 0%, rgba(10,11,15,.22) 30%, rgba(10,11,15,.72) 52%, rgba(10,11,15,.94) 66%, #0A0B0F 78%);}
+.hero-in{position:relative; z-index:1; padding-top:clamp(320px,76vw,460px); padding-bottom:34px}
+.hero h1{margin-bottom:16px; color:#FBF6EC; text-shadow:0 2px 24px rgba(0,0,0,.5)}
+.hero .lede{font-size:18px; color:#D8D0C2; margin-bottom:26px}
+.hero .lede b{color:#FBF6EC; font-weight:600}
+.qlist{list-style:none; margin:0; padding:0; display:grid; gap:1px; background:rgba(255,255,255,.14); border:1px solid rgba(255,255,255,.16); border-radius:var(--r); overflow:hidden; backdrop-filter:blur(7px)}
+.qlist li{background:rgba(18,20,26,.62); padding:13px 16px; font-size:15.5px; display:flex; gap:11px; align-items:flex-start; color:#EDE6D8}
+.qlist .gl{color:#E3B95F; font-size:15px; flex:none; line-height:1.55}
+.stamp{display:inline-flex;align-items:center;gap:8px;background:rgba(227,185,95,.16);color:#E9C273;border:1px solid rgba(227,185,95,.32);border-radius:100px;padding:6px 13px;font-size:13px;font-weight:600;margin-bottom:18px}
+.form-sec{padding:26px 0 8px}
+@media (prefers-reduced-motion: reduce){ .hero-bg video{display:none} .hero-bg{background:#0A0B0F center/cover no-repeat url(hero-poster.jpg)} }
+
+.form-card{background:var(--paper-2); border:1px solid var(--line); border-radius:var(--r); padding:22px; box-shadow:var(--shadow)}
+label{display:block; font-size:13px; font-weight:600; letter-spacing:.04em; text-transform:uppercase; color:var(--ink-3); margin-bottom:9px}
+.date-fields{display:grid; grid-template-columns:1fr 1.5fr 1fr; gap:9px}
+.date-fields select{
+  width:100%; padding:14px 11px; font:inherit; font-size:17px; color:var(--ink);
+  background:var(--paper); border:1px solid var(--line); border-radius:10px; min-height:54px;
+  appearance:none; -webkit-appearance:none; text-align:center; cursor:pointer;
+  background-image:linear-gradient(45deg,transparent 50%,var(--ink-3) 50%),linear-gradient(135deg,var(--ink-3) 50%,transparent 50%);
+  background-position:calc(100% - 15px) 24px, calc(100% - 10px) 24px; background-size:5px 5px,5px 5px; background-repeat:no-repeat;
+  padding-right:26px;
+}
+.date-fields select:focus{outline:2px solid var(--deep); outline-offset:1px; border-color:transparent}
+.btn{
+  width:100%; margin-top:14px; padding:16px 20px; font:inherit; font-size:17px; font-weight:600;
+  color:var(--on-deep); background:var(--deep); border:0; border-radius:10px; cursor:pointer; min-height:56px;
+  transition:transform .12s ease, filter .12s ease;
+}
+.btn:hover{filter:brightness(1.07)}
+.btn:active{transform:translateY(1px)}
+.note{font-size:13px; color:var(--ink-3); margin:12px 0 0; line-height:1.5}
+.err{color:var(--alert); font-size:14px; margin-top:10px; display:none}
+.err.on{display:block}
+
+.hidden{display:none}
+.res-head{margin:44px 0 22px; padding-bottom:20px; border-bottom:2px solid var(--ink)}
+.res-head .sign{font-family:Spectral,serif; font-size:clamp(30px,7vw,46px); font-weight:600; line-height:1.1}
+.res-head .meta{color:var(--ink-3); font-size:14px; margin-top:8px}
+
+.sphere{background:var(--paper-2); border:1px solid var(--line); border-radius:var(--r); padding:22px; margin-bottom:16px; box-shadow:var(--shadow)}
+.sphere-top{display:flex; align-items:center; gap:11px; margin-bottom:15px; flex-wrap:wrap}
+.sphere-ic{width:34px;height:34px;border-radius:9px;display:grid;place-items:center;font-size:17px;flex:none;background:var(--brass-soft);color:var(--brass)}
+.sphere h3{flex:1; min-width:130px; font-family:Inter,sans-serif; font-size:16px; font-weight:600;
+  text-transform:uppercase; letter-spacing:.13em; color:var(--ink)}
+.tag{font-size:11.5px; font-weight:600; letter-spacing:.06em; text-transform:uppercase; padding:4px 9px; border-radius:100px}
+.tag.hard{background:var(--alert-soft); color:var(--alert)}
+.tag.easy{background:var(--deep-soft); color:var(--deep)}
+.sphere p{font-size:16.5px}
+.dtable{width:100%; border-collapse:collapse; margin:18px 0; font-size:15.5px}
+.dtable tr{border-top:1px solid var(--line)}
+.dtable tr:last-child{border-bottom:1px solid var(--line)}
+.dtable td{padding:11px 0; vertical-align:top; color:var(--ink-2); line-height:1.5}
+.dtable td.d{font-variant-numeric:tabular-nums; font-weight:600; color:var(--ink); white-space:nowrap;
+  width:88px; padding-right:14px; font-size:15px; letter-spacing:.01em}
+
+.todo{background:var(--deep-soft); border-radius:12px; padding:16px 18px; font-size:16px; margin-top:18px}
+.todo b{display:block; font-family:Spectral,serif; font-size:19px; font-weight:600; letter-spacing:0;
+  text-transform:none; color:var(--deep); margin-bottom:7px}
+.todo p{margin:0}
+.todo .when{margin-top:11px; padding-top:11px; border-top:1px solid rgba(19,81,74,.18); font-size:15px; color:var(--ink-2)}
+.todo .when span{display:inline-block; font-weight:700; color:var(--deep); text-transform:uppercase;
+  font-size:11.5px; letter-spacing:.12em; margin-right:8px}
+
+.ask{border-top:1px dashed var(--line); margin-top:20px; padding-top:18px}
+.ask-top{font-family:Spectral,serif; font-size:clamp(19px,4vw,22px); font-weight:600; color:var(--ink); margin:0 0 4px}
+.ask-intro{color:var(--wine); font-size:15.5px; font-weight:500; margin:0 0 12px}
+.ask i{font-family:Spectral,serif; font-size:20px; font-style:italic; color:var(--ink); display:block;
+  padding-left:15px; border-left:3px solid var(--wine); line-height:1.45}
+
+.theory{margin:40px 0 24px}
+.theory h2{margin:8px 0 14px}
+.theory b{color:var(--ink); font-weight:600}
+.theory-card{background:var(--paper-2); border:1px solid var(--line); border-left:3px solid var(--brass); border-radius:var(--r); padding:22px; margin-top:18px; box-shadow:var(--shadow)}
+.theory-card h3{margin-bottom:12px}
+.theory-card h3 span{color:var(--brass); font-style:italic; font-weight:400}
+.ask-link{display:inline-flex; align-items:center; gap:7px; margin-top:12px; color:var(--deep); font-weight:600; font-size:15px; text-decoration:none; border-bottom:1px solid currentColor; padding-bottom:1px}
+.ask-link .arw{font-size:17px; line-height:1}
+.price .was{font-size:22px; color:var(--ink-3); text-decoration:line-through; font-family:Spectral,serif}
+.timer{display:flex; align-items:center; gap:9px; background:var(--alert-soft); color:var(--alert); border-radius:10px; padding:11px 14px; font-size:14.5px; font-weight:600; margin-bottom:16px}
+.timer .clock{font-variant-numeric:tabular-nums; letter-spacing:.04em}
+.bridge{position:relative; overflow:hidden; margin:44px 0; padding:150px 22px 28px;
+  background:linear-gradient(180deg,#0A0B0F 0%,#101321 48%,#0C0E15 100%);
+  border:1px solid rgba(227,185,95,.28); border-radius:18px; color:#E8E1D2;
+  box-shadow:0 18px 44px rgba(10,11,15,.32)}
+.bridge-sky{position:absolute; top:0; left:0; width:100%; height:190px; opacity:.95}
+.bridge > *:not(.bridge-sky){position:relative; z-index:1}
+.bridge p:last-child{margin-bottom:0}
+.bridge-title{font-family:Spectral,serif; font-weight:600; text-transform:uppercase;
+  font-size:clamp(19px,4.4vw,27px); line-height:1.24; letter-spacing:.055em; color:#F2C877; margin-bottom:16px;
+  text-shadow:0 2px 20px rgba(0,0,0,.6)}
+.bridge b{color:#FFF7E6; font-weight:600}
+.qline{font-family:Spectral,serif; font-style:italic; font-size:19.5px; line-height:1.72; color:#F7EFDD;
+  padding-left:16px; border-left:2px solid rgba(227,185,95,.55)}
+.offer{background:var(--paper-2); border:1px solid var(--line); border-radius:var(--r); padding:24px 22px; margin-bottom:18px; box-shadow:var(--shadow)}
+.offer.lead{border:2px solid var(--deep)}
+.offer h2{margin:10px 0 12px}
+.variant{display:inline-block; background:var(--deep); color:var(--on-deep); border-radius:100px; padding:9px 20px; font-weight:600; font-size:clamp(14.5px,3.5vw,16.5px); letter-spacing:.03em; text-transform:uppercase}
+.variant.alt{background:var(--brass)}
+.price{display:flex; align-items:baseline; gap:10px; margin:18px 0; flex-wrap:wrap}
+.price .num{font-family:Spectral,serif; font-size:38px; font-weight:600; color:var(--deep)}
+.price .cap{color:var(--ink-3); font-size:14px}
+.inc{list-style:none; margin:16px 0; padding:0; display:grid; gap:10px}
+.inc li{display:flex; gap:11px; font-size:15.8px; align-items:flex-start}
+.inc .ck{color:var(--deep); flex:none; font-weight:700}
+.cta{display:block; text-align:center; text-decoration:none; padding:16px 20px; border-radius:10px; font-weight:600; font-size:17px; min-height:56px; line-height:1.4}
+.cta.solid{background:var(--deep); color:var(--on-deep)}
+.cta.ghost{background:transparent; color:var(--ink); border:1.5px solid var(--ink)}
+.cta.brass{background:var(--brass); color:var(--on-deep)}
+.cta-row{display:grid; grid-template-columns:1fr 1fr; gap:10px}
+@media (max-width:430px){ .cta-row{grid-template-columns:1fr} .cta{font-size:16.5px} }
+.word{font-weight:700; letter-spacing:.06em}
+.cta-hint{margin:0 0 14px; text-align:center; font-size:clamp(16px,3.9vw,18px); font-weight:600;
+  color:var(--wine); line-height:1.5; background:var(--alert-soft); border-radius:12px; padding:14px 16px}
+.cta-hint .word{font-weight:800; letter-spacing:.07em; color:var(--wine)}
+.callout{background:var(--brass-soft); border:1px solid var(--brass); border-radius:10px; padding:15px 17px; margin:18px 0; font-size:16px; font-weight:500; color:var(--ink)}
+footer{border-top:1px solid var(--line); margin-top:48px; padding:26px 0 40px; color:var(--ink-3); font-size:14px}
+footer a{color:var(--ink-2)}
+.consent{display:inline-block; margin-top:8px; color:var(--ink-3); font-size:12.5px; line-height:1.5}
+.consent a{color:var(--ink-3); text-decoration:underline; text-underline-offset:2px}
+.consent a:hover{color:var(--deep)}
+.docs{display:flex; flex-wrap:wrap; gap:8px 20px; margin-bottom:16px}
+.docs .doc-link, .docs a{color:var(--ink-2); font-size:14px; border-bottom:1px solid var(--line); padding-bottom:2px; text-decoration:none}
+.docs a:hover{color:var(--deep); border-color:var(--deep)}
+@media (max-width:420px){ body{font-size:16.5px} .sphere,.offer{padding:19px 17px} }
+</style>
+</head>
+<body>
+
+<div class="topbar"><div class="wrap">
+  <div class="mark">☉</div>
+  <div><b>Астролог без магии</b><span>Наталья Шакирова</span></div>
+</div></div>
+
+<section class="hero">
+  <div class="hero-bg">
+    <video src="hero.mp4" poster="hero-poster.jpg" autoplay muted loop playsinline preload="metadata" aria-hidden="true"></video>
+    <div class="scrim"></div>
+  </div>
+  <div class="wrap hero-in">
+    <div class="stamp">Расчёт по реальным эфемеридам</div>
+    <h1>Что реально ждёт вас в этом месяце - по вашей дате рождения</h1>
+    <p class="lede"><b>Я прагматик и ценю астрологию не за мистику, а за то, что она вскрывает системные ошибки:</b> это точный аудит вашего месяца по четырём сферам</p>
+    <ul class="qlist">
+      <li><span class="gl">◆</span><span>Деньги в этом месяце придут или утекут</span></li>
+      <li><span class="gl">◆</span><span>Отношения - время близости или время взрыва</span></li>
+      <li><span class="gl">◆</span><span>В деле двигаться сейчас или притормозить</span></li>
+      <li><span class="gl">◆</span><span>Где взять ресурс, когда батарейка на нуле</span></li>
+    </ul>
+  </div>
+</section>
+
+<main class="wrap">
+
+<section class="form-sec">
+  <div class="form-card">
+    <form id="form" novalidate>
+      <label for="bdDay">Ваша дата рождения</label>
+      <div class="date-fields">
+        <select id="bdDay" aria-label="День" required></select>
+        <select id="bdMonth" aria-label="Месяц" required></select>
+        <select id="bdYear" aria-label="Год" required></select>
+      </div>
+      <button class="btn" type="submit">Собрать мой прогноз</button>
+      <div class="err" id="err">Проверьте дату - кажется, такой не существует</div>
+    </form>
+    <p class="note">Время рождения не нужно. Расчёт идёт прямо в вашем браузере: дата никуда не отправляется и нигде не сохраняется<br><span class="consent">Нажимая кнопку, вы соглашаетесь с <a href="https://docs.google.com/document/d/1KCnxYIBmCRD1MqweI5adBJaSfShsV2YE/preview" target="_blank" rel="noopener">офертой</a>, <a href="https://drive.google.com/file/d/16zSp7WVCOHhNyFwVif9RslUO-PRLtXGj/view" target="_blank" rel="noopener">политикой конфиденциальности</a> и <a href="https://drive.google.com/file/d/17V4s-sA-BxPXUQWweP0CXxO0BKYS9cvh/view" target="_blank" rel="noopener">соглашением о хранении персональных данных</a></span></p>
+  </div>
+</section>
+
+<section id="result" class="hidden">
+  <div class="res-head">
+    <div class="eyebrow">Ваш прогноз</div>
+    <div class="sign" id="signLine"></div>
+    <div class="meta" id="metaLine"></div>
+  </div>
+  <div id="spheres"></div>
+
+  <div class="bridge">
+    <svg class="bridge-sky" viewBox="0 0 400 260" preserveAspectRatio="xMidYMid slice" aria-hidden="true" focusable="false"><defs><radialGradient id="sunG" cx="50%" cy="50%"><stop offset="0%" stop-color="#FFE9B0"/><stop offset="55%" stop-color="#E3B95F"/><stop offset="100%" stop-color="#9C6F1E"/></radialGradient><radialGradient id="glowG" cx="50%" cy="50%"><stop offset="0%" stop-color="#E3B95F" stop-opacity=".45"/><stop offset="100%" stop-color="#E3B95F" stop-opacity="0"/></radialGradient></defs><g fill="#F7EFDD"><circle cx="28" cy="34" r="1.5" opacity=".75"/><circle cx="92" cy="18" r="1" opacity=".5"/><circle cx="150" cy="44" r="1.2" opacity=".6"/><circle cx="214" cy="22" r="1" opacity=".45"/><circle cx="286" cy="52" r="1.6" opacity=".7"/><circle cx="352" cy="28" r="1.1" opacity=".5"/><circle cx="46" cy="118" r="1" opacity=".4"/><circle cx="372" cy="120" r="1.3" opacity=".55"/><circle cx="18" cy="196" r="1.2" opacity=".5"/><circle cx="118" cy="232" r="1" opacity=".4"/><circle cx="248" cy="226" r="1.4" opacity=".6"/><circle cx="330" cy="200" r="1" opacity=".45"/><circle cx="196" cy="196" r="1" opacity=".35"/><circle cx="66" cy="72" r="1" opacity=".35"/></g><circle cx="330" cy="120" r="74" fill="url(#glowG)"/><g fill="none" stroke="#E3B95F" stroke-opacity=".32"><ellipse cx="330" cy="120" rx="52" ry="17"/><ellipse cx="330" cy="120" rx="80" ry="26"/><ellipse cx="330" cy="120" rx="112" ry="37"/></g><circle cx="330" cy="120" r="15" fill="url(#sunG)"/><circle cx="382" cy="126" r="4.5" fill="#C9A06A"/><circle cx="252" cy="110" r="6" fill="#8FA9B8" opacity=".9"/><g transform="translate(224,142)"><circle r="5" fill="#D9B27A"/><ellipse rx="10" ry="3" fill="none" stroke="#E3B95F" stroke-opacity=".7"/></g></svg>
+    <h2 class="bridge-title">А теперь честно,<br>что вы сейчас получили</h2>
+    <p>Это фон месяца по вашему знаку: где давит, где открывается окно, в какие дни лучше не лезть в разговор. Фон - вещь полезная. Но он отвечает на вопрос «какая на улице погода»</p>
+    <p><b>В жизни же вопрос звучит иначе:</b></p>
+    <p class="qline">Мне сейчас выходить или подождать?<br>
+    Соглашаться на этот проект или отказаться?<br>
+    Продавать ли эту квартиру?</p>
+    <p><b>Прогноз по знаку Зодиака на такое не ответит:</b> он про всех по вашему знаку Зодиака, а решение у вас своё и персональное</p>
+  </div>
+
+  <section id="horar-theory" class="theory">
+    <div class="eyebrow">Ответ на ваши вопросы из расчёта</div>
+    <h2>Как узнать ответ на такой вопрос</h2>
+    <p><b>Вы только что прочитали прогноз на текущий месяц по четырём сферам и, скорее всего, минимум в двух из них мысленно поставили галочку:</b> «Вот про это у меня как раз сейчас и болит»</p>
+    <p>Прогноз по знаку на такой вопрос не ответит. Он описывает фон месяца, общий для всех, кто родился в те же числа. Натальная карта тоже не ответит: она про вашу жизнь целиком, про характер и длинные периоды, а не про то, чем закончится конкретная ситуация на этой неделе</p>
+    <p>Для точного ответа на конкретный вопрос, с формулировкой «да» или «нет», есть отдельный раздел в астрологии - самый востребованный и самый точный. Называется он <b>хорарная астрология</b>, или астрология часа</p>
+    <div class="theory-card">
+      <h3>Хорарная астрология <span>(астрология часа)</span></h3>
+      <p>Карта строится не на ваше рождение, а на ту минуту, когда вопрос созрел у вас в голове. Астрологи пользуются этим методом с XIII века именно потому, что он отвечает коротко и проверяемо</p>
+      <ul class="inc">
+        <li><span class="ck">✓</span><span>Дата и время вашего рождения не нужны вообще</span></li>
+        <li><span class="ck">✓</span><span>Один вопрос за раз, сформулированный конкретно, а не «что меня ждёт»</span></li>
+        <li><span class="ck">✓</span><span>Ответ по существу: да, нет или «да, но при условии»</span></li>
+        <li><span class="ck">✓</span><span>Срок: когда ситуация разрешится</span></li>
+        <li><span class="ck">✓</span><span>Ответ можно проверить: событие либо случилось в названный срок, либо нет</span></li>
+      </ul>
+      <p class="note">Подходит для вопросов вида: вернут ли деньги, состоится ли сделка, возьмут ли меня на эту работу, это временная ссора или развод, найдётся ли пропавшая вещь</p>
+    </div>
+  </section>
+
+  <div class="offer lead">
+    <div class="variant">Что с этим делать · вариант 1</div>
+    <h2>Разберу ваш вопрос методом хорарной астрологии</h2>
+    <p>Смотрю в карте не «энергии», а конкретику: кто как настроен на самом деле, чем всё закончится и в какой срок. Вопросы, которые вы прочитали в своём расчёте, - ровно такого типа, можете взять любой из них, он уже сформулирован правильно</p>
+    <ul class="inc">
+      <li><span class="ck">✓</span><span>Один конкретный вопрос и ответ по существу: да, нет или «да, но при условии»</span></li>
+      <li><span class="ck">✓</span><span>Срок - когда ситуация решится, а не «когда-нибудь само»</span></li>
+      <li><span class="ck">✓</span><span>Что сделать, чтобы выйти из неё с наименьшими потерями</span></li>
+      <li><span class="ck">✓</span><span>Формат - подробное голосовое, отвечаю оперативно</span></li>
+      <li><span class="ck">✓</span><span>Темы: отношения и развод, работа и переход, купля-продажа имущества, поиск пропавшего</span></li>
+    </ul>
+    <div class="price"><span class="was">5 000 ₽</span><span class="num">4 000 ₽</span></div>
+    <div class="timer"><span>⏳</span><span>Цена 4 000 ₽ держится 24 часа после вашего расчёта: <span class="clock" id="clock">24:00:00</span></span></div>
+    <p class="cta-hint">Выбирайте любую кнопку ниже, Telegram или MAX, и пишите мне в личку слово <b class="word">ХОРАР</b> - я расскажу про все условия</p>
+    <div class="cta-row">
+      <a class="cta solid" href="https://max.ru/u/f9LHodD0cOJmwy9Yo51txASlvxHI5Sg26Z7G7Q9MqKHAkw8haNu51zCBqUs" target="_blank" rel="noopener">Написать в MAX</a>
+      <a class="cta ghost" href="https://t.me/ShakirNat?text=%D0%A5%D0%9E%D0%A0%D0%90%D0%A0" target="_blank" rel="noopener">Написать в Telegram</a>
+    </div>
+    <p class="note" style="text-align:center"><span class="consent">Нажимая кнопку, вы соглашаетесь с <a href="https://docs.google.com/document/d/1KCnxYIBmCRD1MqweI5adBJaSfShsV2YE/preview" target="_blank" rel="noopener">офертой</a>, <a href="https://drive.google.com/file/d/16zSp7WVCOHhNyFwVif9RslUO-PRLtXGj/view" target="_blank" rel="noopener">политикой конфиденциальности</a> и <a href="https://drive.google.com/file/d/17V4s-sA-BxPXUQWweP0CXxO0BKYS9cvh/view" target="_blank" rel="noopener">соглашением о хранении персональных данных</a></span></p>
+  </div>
+
+  <div class="offer">
+    <div class="variant alt">Что с этим делать · вариант 2</div>
+    <h2>Когда вопроса нет, а сфера буксует</h2>
+    <p>Бывает и по-другому. Вопроса как такового нет, а есть ощущение, что второй год ходите по кругу: деньги приходят и утекают, отношения повторяются под копирку, работа тянет силы. Одним «да или нет» это не лечится</p>
+    <p>Тогда берём не месяц, а год вперёд, и не все сферы подряд, а две ваши больные. Я смотрю по вашей карте, где точки роста, а где вас будет проверять на прочность, и раскладываю по периодам: когда начинать, когда не трогать, когда собирать урожай</p>
+    <ul class="inc">
+      <li><span class="ck">✓</span><span>Тематический прогноз на год по двум сферам на выбор: финансы, отношения, дети, карьера</span></li>
+      <li><span class="ck">✓</span><span>Считаю по вашей натальной карте, а не по знаку Солнца</span></li>
+      <li><span class="ck">✓</span><span>Перед работой обязательное интервью по прошлым событиям, чтобы настроить карту точно</span></li>
+      <li><span class="ck">✓</span><span>На выходе структурированный PDF и подробные голосовые или созвон в Zoom</span></li>
+      <li><span class="ck">✓</span><span>Нужны дата, точное время и место рождения</span></li>
+    </ul>
+    <div class="callout">Это уже большая работа, а не экспресс-ответ. Стоимость и ближайшие свободные даты скажу в личке</div>
+    <p class="cta-hint">Выбирайте любую кнопку ниже, Telegram или MAX, и пишите мне в личку слово <b class="word">ГОД</b> - я расскажу про все условия</p>
+    <div class="cta-row">
+      <a class="cta solid brass" href="https://max.ru/u/f9LHodD0cOJmwy9Yo51txASlvxHI5Sg26Z7G7Q9MqKHAkw8haNu51zCBqUs" target="_blank" rel="noopener">Написать в MAX</a>
+      <a class="cta ghost" href="https://t.me/ShakirNat?text=%D0%93%D0%9E%D0%94" target="_blank" rel="noopener">Написать в Telegram</a>
+    </div>
+  </div>
+</section>
+
+</main>
+
+<footer><div class="wrap">
+  <nav class="docs">
+    <a href="https://docs.google.com/document/d/1KCnxYIBmCRD1MqweI5adBJaSfShsV2YE/preview" target="_blank" rel="noopener">Оферта</a>
+    <a href="https://drive.google.com/file/d/16zSp7WVCOHhNyFwVif9RslUO-PRLtXGj/view" target="_blank" rel="noopener">Политика конфиденциальности</a>
+    <a href="https://drive.google.com/file/d/17V4s-sA-BxPXUQWweP0CXxO0BKYS9cvh/view" target="_blank" rel="noopener">Соглашение о хранении персональных данных</a>
+    <a href="https://drive.google.com/file/d/1tm5i4NH9azGTEIaiXkilbdLhiJ30ps-E/view" target="_blank" rel="noopener">Согласие на получение рекламных рассылок</a>
+  </nav>
+  Наталья Шакирова · астролог и астропсихолог<br>
+  Расчёт носит рекомендательный характер
+</div></footer>
+
+<script src="engine.js"></script>
+<script src="app.js"></script>
+</body>
+</html>
